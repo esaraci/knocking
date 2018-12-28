@@ -2,24 +2,38 @@ import numpy as np
 import pandas as pd
 from scipy.cluster.hierarchy import linkage, dendrogram, fcluster
 from dtw import dtw
-from fastdtw import fastdtw
+# from fastdtw import fastdtw
 import matplotlib.pyplot as plt
 from multiprocessing import Pool
 from functools import partial
 import time
 
-
-
-# CONSTS
-N_CLUSTERS      = 50
-N_FLOWS         = 10000
-PATH            = "./apps_total_plus_filtered.csv"
+"""
+"send message selection"            send message
+"open facebook"                     open facebook
+"status post selection"             post on own wall
+"post button selection"             post on friends wall
+"user profile selection"            open user profile
+"first conversation selection"      open message
+"status selection"                  status button
+"""
 
 def _str_to_list(s):
     return [int(sub.replace("[", "").replace("]", "")) for sub in s.split(",")]
 
 def _abs(x1, x2):
     return abs(x1-x2)
+
+def _rename_if_non_relevant(s):
+    D =  ["send message selection",
+          "open facebook" ,
+          "status post selection",
+          "post button selection",
+          "user profile selection",
+          "first conversation selection",
+          "status selection"]
+
+    return "other" if s not in D else s
 
 """
 # dendrogram
@@ -34,7 +48,7 @@ dendrogram(
 )
 """
 
-def load_raw_data(path=PATH):
+def load_raw_data(path):
     df = pd.read_csv(path)
     # extracting useful data
     fb_data = df.loc[:N_FLOWS-1,["action_start", "packets_length_total", "flow_length", "action"]].values
@@ -108,10 +122,20 @@ def save_dataset(dataset):
         for row in dataset:
             for c in row[1]:
                 f.write("{},".format(int(c)))
-            f.write("\"{}\"\n".format(row[0]))
+            f.write("\"{}\"\n".format(_rename_if_non_relevant(row[0])))
 
 
 if __name__ == '__main__':
+    
+    print("STARTING")
+    # CONSTS
+    N_CLUSTERS      = 50
+    N_FLOWS         = 1000
+    # N_FLOWS         = 50319 # last facebook flow
+    PATH            = "./apps_total_plus_filtered.csv"
+
+
+
     # F: flows loaded from dataset
     # D: same cardinality as F but with more info needed later
     # X: condensed distance matrix (upper triangular matrix)
@@ -122,29 +146,39 @@ if __name__ == '__main__':
     start_time = time.time()
 
     CONCURRENT_EXEC = True
-    if CONCURRENT_EXEC:  
-        pool = Pool(4)
+    if CONCURRENT_EXEC:
+        print("Building CDM concurrently...")
+        pool = Pool(8)
         X_indexes = _triu_indexes()
         caller = partial(concurrent_cdm, F, _abs)
         X = pool.map(caller, X_indexes)
+        print("CDM build...")
         # np.savetxt("./async.txt", X)
     
     else:
         X = cdm(flows=F, dist_func=_abs)
         # np.savetxt("./sync.txt", X)
 
-    print("[----- cdm took {:.3f}s -----]".format(time.time() - start_time))
+    print("[INFO] cdm took {:.3f}s]".format(time.time() - start_time))
 
     start_time = time.time()
+    print("Clustering and linking started")
     C = clustering(cdm=X, linkage_metric="average")
-    print("[----- clustering + linkage=average took {:.3f}s -----]".format(time.time() - start_time))
-
+    print("Clustering finished")
     
+    print("[INFO] clustering + linkage=average took {:.3f}s ".format(time.time() - start_time))
+
+
     # DATASET CREATION RELATED
     start_time = time.time()
+    print("Bulding dataset...")
     dataset = prepare_dataset(res=C, fb_data=D)
-    print("[----- prepare_dataset took {:.3f}s -----]".format(time.time() - start_time))
+    print("[INFO] prepare_dataset took {:.3f}s".format(time.time() - start_time))
     
     start_time = time.time()
+
+    print("Saving dataset...")
     save_dataset(dataset)
-    print("[----- save_dataset took {:.3f}s -----]".format(time.time() - start_time))
+    print("[INFO] save_dataset took {:.3f}s".format(time.time() - start_time))
+
+    print("FINISHED")
