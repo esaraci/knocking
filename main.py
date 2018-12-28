@@ -64,7 +64,7 @@ def cdm(flows, dist_func=_abs):
 def _triu_indexes():
     # return [(i, j) for i in range(N_FLOWS) for j in range(i+1, N_FLOWS)]
     # return [(0, 2000), (2000, 4000), (4000, 6000), (6000, 10000)]
-    return [(0, 250), (250, 500), (500, 750), (750,1000)]
+    return [(0, 1000), (1000, 2000), (2000, 3000), (3000, 4000)]
 
 def concurrent_cdm(flows, dist_func, limits):
     # return dtw(flows[pair[0]], flows[pair[1]], dist_func)[0]
@@ -140,7 +140,7 @@ if __name__ == '__main__':
     print("STARTING")
     # CONSTS
     N_CLUSTERS      = 50
-    N_FLOWS         = 1000
+    N_FLOWS         = 4000
     # N_FLOWS         = 50319 # last facebook flow
     PATH            = "./apps_total_plus_filtered.csv"
 
@@ -158,7 +158,7 @@ if __name__ == '__main__':
     CONCURRENT_EXEC = True
     if CONCURRENT_EXEC:
         print("Building CDM concurrently...")
-        pool = Pool(4)
+        pool = Pool(8)
         X_indexes = _triu_indexes()
         caller = partial(concurrent_cdm, F, _abs)
         X = pool.map(caller, X_indexes)
