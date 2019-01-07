@@ -19,6 +19,12 @@ import time
 "status selection"                  status button
 """
 
+
+"""
+facebook has 9830 flows ==> range(0, 9830)
+twitter has 10444 flwos ==> range(50299, 60743)
+gmail has 9923 flows    ==> range(86578, 96502)
+"""
 def _str_to_list(s):
     return [int(sub.replace("[", "").replace("]", "")) for sub in s.split(",")]
 
@@ -63,8 +69,8 @@ def cdm(flows, dist_func=_abs):
 
 def _triu_indexes():
     # return [(i, j) for i in range(N_FLOWS) for j in range(i+1, N_FLOWS)]
-    # return [(0, 2000), (2000, 4000), (4000, 6000), (6000, 10000)]
-    return [(0, 1000), (1000, 2000), (2000, 3000), (3000, 4000)]
+    return [(0, 2000), (2000, 4000), (4000, 6000), (6000, 10000)]
+    # return [(0, 1000), (1000, 2000), (2000, 3000), (3000, 4000)]
 
 def concurrent_cdm(flows, dist_func, limits):
     # return dtw(flows[pair[0]], flows[pair[1]], dist_func)[0]
@@ -116,7 +122,7 @@ def prepare_dataset(res, fb_data):
 
 def save_dataset(dataset):
     # writing dataset to csv file
-    with open('./dataset.csv', 'w') as f:
+    with open('./fb_dataset.csv', 'w') as f:
         # header row
         # C1, C2,..., Cn, action
         headers = ""
@@ -140,8 +146,7 @@ if __name__ == '__main__':
     print("STARTING")
     # CONSTS
     N_CLUSTERS      = 50
-    N_FLOWS         = 4000
-    # N_FLOWS         = 50319 # last facebook flow
+    N_FLOWS         = 10000
     PATH            = "./apps_total_plus_filtered.csv"
 
 
@@ -169,7 +174,7 @@ if __name__ == '__main__':
     
     else:
         X = cdm(flows=F, dist_func=_abs)
-        np.savetxt("./sync.txt", X)
+        # np.savetxt("./sync.txt", X)
 
     print("[INFO] cdm took {:.3f}s]".format(time.time() - start_time))
     start_time = time.time()
