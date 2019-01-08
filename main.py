@@ -180,14 +180,11 @@ if __name__ == '__main__':
     # task should be red from args
     ENV_TASK = "twitter"
     ENV_STARTING_INDEX  = _CONSTS[ENV_TASK][0]
-    ENV_LAST_INDEX      = _CONSTS[ENV_TASK][1]s
+    ENV_LAST_INDEX      = _CONSTS[ENV_TASK][1]
 
     F, D = load_raw_data(path=PATH)
     N_FLOWS = len(F)
-    
-    print(ENV_LAST_INDEX)
-    print(ENV_STARTING_INDEX)
-    print(N_FLOWS)
+   
 
     start_time = time.time()
 
