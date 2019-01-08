@@ -21,16 +21,35 @@ import time
 
 
 """
-facebook has 9830 flows ==> range(0, 9830)
-twitter has 10444 flwos ==> range(50299, 60743)
-gmail has 9923 flows    ==> range(86578, 96502)
+facebook (0, 9830)
+twitter (50319, 60742)
+gmail (86578, 96502)
+"gplus" :(96502,107293),
+"tumblr":(129973, 140532),
+"dropbox"   :(186675, 196682),
+"evernote"  :(235137, 246620)
 """
+
+
+
+# ugly but easier
+_CONSTS = {"facebook"     :(0, 9829),
+             "twitter"      :(50319, 60742),
+             "gmail"        :(86578, 96501),
+             "gplus"        :(96502, 107293),
+             "tumblr"       :(129973, 140532),
+             "dropbox"      :(186675, 196682),
+             "evernote"     :(235137, 246620)
+             }
+
 def _str_to_list(s):
     return [int(sub.replace("[", "").replace("]", "")) for sub in s.split(",")]
 
 def _abs(x1, x2):
     return abs(x1-x2)
 
+
+# TODO: this has to moved in the classification algorithm
 def _rename_if_non_relevant(s):
     D =  ["send message selection",
           "open facebook" ,
@@ -58,7 +77,7 @@ dendrogram(
 def load_raw_data(path):
     df = pd.read_csv(path)
     # extracting useful data
-    fb_data = df.loc[:N_FLOWS-1,["action_start", "packets_length_total", "flow_length", "action"]].values
+    fb_data = df.loc[ENV_STARTING_INDEX:ENV_LAST_INDEX,["action_start", "packets_length_total", "flow_length", "action"]].values
     # converting flows to actual lists
     return [_str_to_list(row[1]) for row in fb_data], fb_data
 
@@ -69,7 +88,7 @@ def cdm(flows, dist_func=_abs):
 
 def _triu_indexes():
     # return [(i, j) for i in range(N_FLOWS) for j in range(i+1, N_FLOWS)]
-    return [(0, 2000), (2000, 4000), (4000, 6000), (6000, 10000)]
+    return [(0, 2000), (2000, 4000), (4000, 6000), (6000, 8000), (8000, N_FLOWS)]
     # return [(0, 1000), (1000, 2000), (2000, 3000), (3000, 4000)]
 
 def concurrent_cdm(flows, dist_func, limits):
@@ -91,8 +110,11 @@ def prepare_dataset(res, fb_data):
 
     dataset             = []
     features            = np.zeros(N_CLUSTERS)
-    prev_action_id      = 1383129102.11     # setting first value, => ugly but makes it easier
-    prev_action_label   = "open facebook"   # setting first value, => ugly but makes it easier
+    # prev_action_id      = 1383129102.11     # setting first value, => ugly but makes it easier
+    # prev_action_label   = "open facebook"   # setting first value, => ugly but makes it easier
+    prev_action_id      = df.loc[ENV_STARTING_INDEX]["action_start"]
+    prev_action_label   = df.loc[ENV_STARTING_INDEX]["action"]
+
     for idx, row in enumerate(fb_data):
         # saving current action_{label, id}
         cur_action_label    = row[3]
@@ -138,7 +160,7 @@ def save_dataset(dataset):
         for row in dataset:
             for c in row[1]:
                 f.write("{},".format(int(c)))
-            f.write("\"{}\"\n".format(_rename_if_non_relevant(row[0])))
+            f.write("\"{}\"\n".format(row[0]))
 
 
 if __name__ == '__main__':
@@ -146,7 +168,6 @@ if __name__ == '__main__':
     print("STARTING")
     # CONSTS
     N_CLUSTERS      = 50
-    N_FLOWS         = 10000
     PATH            = "./apps_total_plus_filtered.csv"
 
 
@@ -156,8 +177,18 @@ if __name__ == '__main__':
     # X: condensed distance matrix (upper triangular matrix)
     # C: list with cluster assignments for each flow in D
     
+    # task should be red from args
+    ENV_TASK = "twitter"
+    ENV_STARTING_INDEX  = _CONSTS[ENV_TASK][0]
+    ENV_LAST_INDEX      = _CONSTS[ENV_TASK][1]s
+
     F, D = load_raw_data(path=PATH)
+    N_FLOWS = len(F)
     
+    print(ENV_LAST_INDEX)
+    print(ENV_STARTING_INDEX)
+    print(N_FLOWS)
+
     start_time = time.time()
 
     CONCURRENT_EXEC = True
@@ -175,6 +206,9 @@ if __name__ == '__main__':
     else:
         X = cdm(flows=F, dist_func=_abs)
         # np.savetxt("./sync.txt", X)
+
+
+
 
     print("[INFO] cdm took {:.3f}s]".format(time.time() - start_time))
     start_time = time.time()
