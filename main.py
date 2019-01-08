@@ -144,7 +144,7 @@ def prepare_dataset(res, fb_data):
 
 def save_dataset(dataset):
     # writing dataset to csv file
-    with open('./fb_dataset.csv', 'w') as f:
+    with open('./twitter_dataset.csv', 'w') as f:
         # header row
         # C1, C2,..., Cn, action
         headers = ""
