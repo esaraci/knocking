@@ -112,8 +112,8 @@ def prepare_dataset(res, fb_data):
     features            = np.zeros(N_CLUSTERS)
     # prev_action_id      = 1383129102.11     # setting first value, => ugly but makes it easier
     # prev_action_label   = "open facebook"   # setting first value, => ugly but makes it easier
-    prev_action_id      = df.loc[ENV_STARTING_INDEX]["action_start"]
-    prev_action_label   = df.loc[ENV_STARTING_INDEX]["action"]
+    prev_action_id      = fb_data.loc[ENV_STARTING_INDEX]["action_start"]
+    prev_action_label   = fb_data.loc[ENV_STARTING_INDEX]["action"]
 
     for idx, row in enumerate(fb_data):
         # saving current action_{label, id}
