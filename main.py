@@ -112,13 +112,13 @@ def prepare_dataset(res, fb_data):
     features            = np.zeros(N_CLUSTERS)
     # prev_action_id      = 1383129102.11     # setting first value, => ugly but makes it easier
     # prev_action_label   = "open facebook"   # setting first value, => ugly but makes it easier
-    prev_action_id      = fb_data.loc[ENV_STARTING_INDEX]["action_start"]
-    prev_action_label   = fb_data.loc[ENV_STARTING_INDEX]["action"]
+    prev_action_id      = fb_data[0][0]
+    prev_action_label   = fb_data[0][3]
 
     for idx, row in enumerate(fb_data):
         # saving current action_{label, id}
-        cur_action_label    = row[3]
         cur_action_id       = row[0]
+        cur_action_label    = row[3]
         # TODO: attenzione al caso base in cui action_{id, label} sono none <== not needed since hardcoded values set before loop
         if prev_action_id != cur_action_id:
             # if we skipped to the next action
@@ -144,7 +144,7 @@ def prepare_dataset(res, fb_data):
 
 def save_dataset(dataset):
     # writing dataset to csv file
-    with open('./twitter_dataset.csv', 'w') as f:
+    with open('./{}_dataset.csv'.format(ENV_TASK), 'w') as f:
         # header row
         # C1, C2,..., Cn, action
         headers = ""
