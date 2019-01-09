@@ -9,7 +9,7 @@
 
 % Title Page
 \title{Digital Forensics - Project Report}
-\author{Eugen Saraci}
+\author{Eugen Saraci\\ \small{\texttt{eugen.saraci@studenti.unipd.it}}}
 
 
 \begin{document}
@@ -17,11 +17,17 @@
 
 \chapter{Introduction}
 \label{ch:intro}
-
+\noindent\textit{This work is mainly based off the research papers \cite{contiknocking} and \cite{contianalysis}, the goal is to replicate and possibly improve some of the resulsts achieved  in the cited papers.}
 \section{Introduction}
-This work is based off
 
-\subsection{Another Introduction but smaller}
+
+
+\subsection{Traffic Analysis}
+In the last years the expansion of SSL/TLS has made it harder for attackers to sniff passwords or clear text information through packet sniffing or, more in general, through network traffic analysis. The main reason for this is that SSL/TLS provides a cryptographically secure payload encryption, which means that even though packets can still be easily captured, no useful information can be inferred from the payload content without having the encryption keys. It is worth mentioning that the endpoints of the communication (i.e. source and destination IP adresses) are transmitted in clear text for routing purposes; by performing a DNS lookup of the addresses and attacker could easily infer what site a user is visiting. While we can still try to hide these information by using a VPN (or a proxy server), for many users this issue does not represent a relevant privacy problem, therefore no countermeasures are usually adopted in non privacy-critical environments.
+
+\subsection{Inferring user actions}
+In this work we show that by using a combination of machine learning algorithms we can correclty infer user actions through encrypted traffic analysis. It needs to be noticed that we totally ignore the payload contents, while we focus more on a structure we call \textit{flow}, which is a vectorial representation of the packets exchanged between the source and the destination. 
+
 
 
 \begin{thebibliography}{99}
