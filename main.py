@@ -178,7 +178,7 @@ if __name__ == '__main__':
     # C: list with cluster assignments for each flow in D
     
     # task should be red from args
-    ENV_TASK = "twitter"
+    ENV_TASK = "facebook"
     ENV_STARTING_INDEX  = _CONSTS[ENV_TASK][0]
     ENV_LAST_INDEX      = _CONSTS[ENV_TASK][1]
 

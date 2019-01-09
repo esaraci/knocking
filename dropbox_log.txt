@@ -1,0 +1,11 @@
+STARTING
+Building CDM concurrently...
+[INFO] cdm took 1771.851s]
+Clustering and linking started
+Clustering finished
+[INFO] clustering + linkage=average took 6.475s 
+Bulding dataset...
+[INFO] prepare_dataset took 0.627s
+Saving dataset...
+[INFO] save_dataset took 0.098s
+FINISHED

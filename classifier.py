@@ -48,7 +48,7 @@ def plot_confusion_matrix(cm, classes,
 
 
 # loading
-dataset = pd.read_csv("./fb_dataset.csv")
+dataset = pd.read_csv("./twitter_dataset.csv")
 
 n_clusters = len(dataset.columns)-1
 data    = dataset.loc[:, "C1":"C{}".format(n_clusters)].values
@@ -70,7 +70,7 @@ plt.figure()
 plot_confusion_matrix(cnf_matrix, classes=D, normalize=True,
                       title='Normalized confusion matrix')
 
-plt.savefig("cm.png")
+# plt.savefig("cm.png")
 
 
 print("F1:", f1_score(y_test, y_pred, average="weighted"))
