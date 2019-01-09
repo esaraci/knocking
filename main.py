@@ -191,7 +191,7 @@ if __name__ == '__main__':
     CONCURRENT_EXEC = True
     if CONCURRENT_EXEC:
         print("Building CDM concurrently...")
-        pool = Pool(8)
+        pool = Pool(5)
         X_indexes = _triu_indexes()
         caller = partial(concurrent_cdm, F, _abs)
         X = pool.map(caller, X_indexes)
