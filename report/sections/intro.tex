@@ -3,22 +3,45 @@
 
 \subsection{Actions and Flows}
 \label{subsec:flows}
-Follows some useful and necessary terminology to better understand how the whole framework works.
+In order to easily understand this work, in the next two subsections I introduce two general concept used throughout this report.
 
-\begin{description}
-  \item[Action and Action Label] \hfill \\ An action is simply the action performed by a user while using one of the aforementioned Android apps. Examples of actions are: clicking on a profile page, tweeting a message, sending an email etc. Please note that ``clicking on a profile page'' is what I refer to as the \textit{action label}, in many cases I use the words ``action'' or ``action flow'' to refer to the set of flows that represent that action. \todo{spiegare meglio sta roba}
-  \item[Flows] \hfill \\ When a user performs an action some encrypted packets are exchanged with the destination server. A flow consists of the sequence of the byte sizes of the exchanged packets. If the packet is going from the user's phone to the server it is said to be \textit{outgoing}; if the packet is coming from the server to the user's phone it is said to be \textit{incoming} and it is marked with a ``-'' sign before the integer number representing its size.\footnote{The ``-'' sign is just notation, packets cannot have a negative size.} An example of a 5 packet flow is: \texttt{[-12, 80, 90, -111, 30]}. Please note that a single action performed by the user usually generates multiple flows of different dimensions, by that follows that an action actually consists of multiple flows. The techniques used by the authors to determine which flows belong to which action, the ordering of the packets, the packet capturing system, the packet filtering system, and the statistical analysis on the flows will not be treated in this report since the starting point for this work comes when the dataset is already constructed.
-\end{description}
+\subsubsection{Action and Action Label}
+An \textit{action} is simply the action performed by a user while using one of the aforementioned Android apps. Examples of actions are: clicking on a profile page, tweeting a message, sending an email etc. Please note that ``clicking on a profile page'' is what I refer to as the \textit{action label}, in many cases I use the words ``action'' or ``action flow'' to refer to the set of flows that represent that action. \todo{spiegare meglio sta roba}
+
+\subsubsection{Flows}
+When a user performs an action some encrypted packets are exchanged with the destination server. A flow consists of the sequence of the byte sizes of the exchanged packets. If the packet is going from the user's phone to the server it is said to be \textit{outgoing}; if the packet is coming from the server to the user's phone it is said to be \textit{incoming} and it is marked with a ``-'' sign before the integer number representing its size.\footnote{The ``-'' sign is just notation, packets cannot have a negative size.} An example of a 5 packet flow is: \texttt{[-12, 80, 90, -111, 30]}. Please note that a single action performed by the user usually generates multiple flows of different dimensions, by that follows that an action actually consists of multiple flows. The techniques used by the authors to determine which flows belong to which action, the ordering of the packets, the packet capturing system, the packet filtering system, and the statistical analysis on the flows will not be treated in this report since the starting point for this work comes when the dataset is already constructed.
 
 \subsection{Notation}
 \label{subsec:notation}
 \begin{itemize}
- \item $ A $: action, it represents a sequence of flows;
+ \item $ A $: an action; it represents a sequence of flows;
  \item $ a $: action label;
- \item $ F $: a flow, it represents a sequence of packets;
+ \item $ F $: a flow; it represents a sequence of packets;
  \item $ p $: a single packet, it is an integer number representing the size in bytes of that packet.
- 
- Please note that all of the above can be subscripted by indexes; a subscripted element means that that element is the i-th element of a sequence, e.g. $F_i$ is the $i$-th flow of a sequence of flows (possibly an action $A$). \todo{notazione [1,2,3,4]\_i da spiegare}
- 
- By this follows that $A = [F_1, \dots, F_n]$ and $F = [p_1,\dots, p_m]$. Note that $n$ and $m$ are possibly (and probably) different for each flow $F$ and for each action $A$, even for two actions $A_i, A_j$ where $a_i == a_j$.
 \end{itemize}
+
+Please note that all of the above can be subscripted by indexes; a subscripted element means that that element is the i-th element of a sequence, e.g. $F_i$ is the $i$-th flow of a sequence of flows (possibly an action $A$).
+ 
+By this follows that $A_i = [F_1, \dots, F_n]_i$ and $F_i = [p_1,\dots, p_m]_i$. Note that $n$ and $m$ are possibly (and probably) different for each flow $F_i$ and for each action $A_i$, even for two actions $A_i, A_j$ where $a_i == a_j$.
+
+\subsection{Dataset}
+The dataset consists of 252,151 rows (samples) and 12 columns (features), moreover, the data collected contains packets of different actions for 7 different Android applications: Facebook, Twitter, Gmail, Google Plus, Tumblr, Dropbox, and Evernote. 
+
+In Table \ref{tab:dataset} we can see the format of the dataset. I have purposively hidden some of the columns since I do not use them in this work. In the table we can see that each row contains the features of a single flow; to decide which flows belong to which action we compare the \textit{sequence\_start} field which is a fake but consistant timestamp of when the user started that action; When two rows have the same timestamp we can safely assume that they belong to the same action.
+
+\todo{bisogna dire da qualche parte che lavoro con un dataset ridotto}
+
+\begin{table}[]
+\label{tab:dataset}
+\begin{tabular}{@{}lllll@{}}
+\toprule
+\textbf{action\_start}      & \textbf{app}               & \textbf{action\_label}     & \textbf{\dots}             & \textbf{flow}                \\ \midrule
+1383129102.11              & facebook                   & open facebook              & \dots                      & [-15, 75, 144]               \\
+1383129102.11              & facebook                   & open facebook              & \dots                      & [-55, -255, -333, 122, -55]  \\
+\multicolumn{1}{c}{\vdots} & \multicolumn{1}{c}{\vdots} & \multicolumn{1}{c}{\vdots} & \multicolumn{1}{c}{\vdots} & \multicolumn{1}{c}{\vdots}   \\
+1383129102.11              & facebook                   & open facebook              & \dots                      & [12, 12, 155, 155, -18, 255] \\
+1383129244.01              & facebook                   & click menu                 & \dots                      & [78, -206]                   \\
+\multicolumn{1}{c}{\vdots} & \multicolumn{1}{c}{\vdots} & \multicolumn{1}{c}{\vdots} & \multicolumn{1}{c}{\vdots} & \multicolumn{1}{c}{\vdots}   \\ \bottomrule
+\end{tabular}
+\caption{\small{Some rows of the dataset.}}
+\end{table}

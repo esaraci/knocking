@@ -21,19 +21,21 @@ import time
 
 
 """
-facebook (0, 9830)
-twitter (50319, 60742)
-gmail (86578, 96502)
-"gplus" :(96502,107293),
-"tumblr":(129973, 140532),
-"dropbox"   :(186675, 196682),
-"evernote"  :(235137, 246620)
+_CONSTS = {"facebook"     :(0, 9829),
+             "twitter"      :(50319, 60742),
+             "gmail"        :(86578, 96501),
+             "gplus"        :(96502, 107293),
+             "tumblr"       :(129973, 140532),
+             "dropbox"      :(186675, 196682),
+             "evernote"     :(235137, 246620)
+             }
+
 """
 
 
 
 # ugly but easier
-_CONSTS = {"facebook"     :(0, 9829),
+_CONSTS = {"facebook"     :(0, 20),
              "twitter"      :(50319, 60742),
              "gmail"        :(86578, 96501),
              "gplus"        :(96502, 107293),
@@ -61,18 +63,20 @@ def _rename_if_non_relevant(s):
 
     return "other" if s not in D else s
 
-"""
-# dendrogram
-plt.figure(figsize=(25, 10))
-plt.title('Hierarchical Clustering Dendrogram')
-plt.xlabel('sample index')
-plt.ylabel('distance')
-dendrogram(
-    Z,
-    leaf_rotation=90.,  # rotates the x axis labels
-    leaf_font_size=8.,  # font size for the x axis labels
-)
-"""
+
+def print_dendrogram(Z):
+    # dendrogram
+    print("lul?")
+    plt.figure(figsize=(25, 10))
+    plt.title('Hierarchical Clustering Dendrogram')
+    plt.xlabel('sample index')
+    plt.ylabel('distance')
+    dendrogram(
+        Z,
+        leaf_rotation=90.,  # rotates the x axis labels
+        leaf_font_size=8.,  # font size for the x axis labels
+    )
+    plt.show()
 
 def load_raw_data(path):
     df = pd.read_csv(path)
@@ -104,6 +108,8 @@ def concurrent_cdm(flows, dist_func, limits):
 def clustering(cdm, linkage_metric="average"):
     # cdm: precomputed condensed distance matrix
     Z = linkage(cdm, method=linkage_metric)
+    print_dendrogram(Z)
+    exit()
     return fcluster(Z, N_CLUSTERS, criterion='maxclust')
 
 def prepare_dataset(res, fb_data):
@@ -167,7 +173,7 @@ if __name__ == '__main__':
     
     print("STARTING")
     # CONSTS
-    N_CLUSTERS      = 50
+    N_CLUSTERS      = 10
     PATH            = "./apps_total_plus_filtered.csv"
 
 
@@ -188,7 +194,7 @@ if __name__ == '__main__':
 
     start_time = time.time()
 
-    CONCURRENT_EXEC = True
+    CONCURRENT_EXEC = False
     if CONCURRENT_EXEC:
         print("Building CDM concurrently...")
         pool = Pool(5)
@@ -211,6 +217,7 @@ if __name__ == '__main__':
     start_time = time.time()
     print("Clustering and linking started")
     C = clustering(cdm=X, linkage_metric="average")
+    exit()
     print("Clustering finished")
     
     print("[INFO] clustering + linkage=average took {:.3f}s ".format(time.time() - start_time))
