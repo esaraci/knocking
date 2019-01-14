@@ -6,15 +6,17 @@ from sklearn.ensemble import RandomForestClassifier
 import matplotlib.pyplot as plt
 import itertools
 
-
-D =  [    "send message selection",
+def _rename_if_non_relevant(s):
+    D =  ["send message selection",
           "open facebook" ,
           "status post selection",
           "post button selection",
           "user profile selection",
           "first conversation selection",
-          "status selection",
-          "other"]
+          "status selection"]
+
+    return "other" if s not in D else s
+
 
 def plot_confusion_matrix(cm, classes,
                           normalize=False,
@@ -48,11 +50,11 @@ def plot_confusion_matrix(cm, classes,
 
 
 # loading
-dataset = pd.read_csv("./datasets/twitter_dataset.csv")
+dataset = pd.read_csv("./datasets/facebook_dataset.csv")
 
 n_clusters = len(dataset.columns)-1
 data    = dataset.loc[:, "C1":"C{}".format(n_clusters)].values
-target  = dataset.loc[:, "action"].values
+target  = [_rename_if_non_relevant(s) for s in dataset.loc[:, "action"].values]
 
 X_train, X_test, y_train, y_test = train_test_split(data, target, random_state=1337)
 
@@ -66,12 +68,11 @@ cnf_matrix = confusion_matrix(y_test, y_pred)
 np.set_printoptions(precision=2)
 
 # Plot normalized confusion matrix
-plt.figure()
-plot_confusion_matrix(cnf_matrix, classes=D, normalize=True,
-                      title='Normalized confusion matrix')
+# plt.figure()
+# plot_confusion_matrix(cnf_matrix, classes=D, normalize=True,
+#                      title='Normalized confusion matrix')
 
 # plt.savefig("cm.png")
-
 
 print("F1:", f1_score(y_test, y_pred, average="weighted"))
 print("P:", precision_score(y_test, y_pred, average="weighted"))
