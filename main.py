@@ -143,7 +143,7 @@ def prepare_dataset(res, fb_data):
 
 def save_dataset(dataset):
     # writing dataset to csv file
-    with open('./{}_dataset.csv'.format(ENV_TASK), 'w') as f:
+    with open('./{}_dataset_100C.csv'.format(ENV_TASK), 'w') as f:
         # building headers
         # C1, C2,..., Cn, action
         headers = ""
@@ -166,7 +166,7 @@ if __name__ == '__main__':
     
     print("STARTING")
     # CONSTS
-    N_CLUSTERS      = 10
+    N_CLUSTERS      = 100
     PATH            = "./apps_total_plus_filtered.csv"
 
 
@@ -177,7 +177,7 @@ if __name__ == '__main__':
     # C: list with cluster assignments for each flow in D
     
     # task should be red from args
-    ENV_TASK = "facebook"
+    ENV_TASK = "gmail"
     ENV_STARTING_INDEX  = _CONSTS[ENV_TASK][0]
     ENV_LAST_INDEX      = _CONSTS[ENV_TASK][1]
 
@@ -187,7 +187,7 @@ if __name__ == '__main__':
 
     start_time = time.time()
 
-    CONCURRENT_EXEC = False
+    CONCURRENT_EXEC = True
     if CONCURRENT_EXEC:
         print("Building CDM concurrently...")
         pool = Pool(5)
