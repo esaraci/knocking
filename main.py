@@ -81,7 +81,7 @@ def print_dendrogram(Z):
 def load_raw_data(path):
     df = pd.read_csv(path)
     # extracting useful data
-    fb_data = df.loc[ENV_STARTING_INDEX:ENV_LAST_INDEX,["action_start", "packets_length_total", "flow_length", "action"]].values
+    fb_data = df.loc[ENV_STARTING_INDEX:ENV_LAST_INDEX,["action_start", "packets_length_total", "action"]].values
     # converting flows to actual lists
     return [_str_to_list(row[1]) for row in fb_data], fb_data
 
@@ -123,12 +123,12 @@ def prepare_dataset(res, fb_data):
     # prev_action_id      = 1383129102.11     # setting first value, => ugly but makes it easier
     # prev_action_label   = "open facebook"   # setting first value, => ugly but makes it easier
     prev_action_id      = fb_data[0][0]
-    prev_action_label   = fb_data[0][3]
+    prev_action_label   = fb_data[0][2]
 
     for idx, row in enumerate(fb_data):
         # saving current action_{label, id}
         cur_action_id       = row[0]
-        cur_action_label    = row[3]
+        cur_action_label    = row[2]
         # TODO: attenzione al caso base in cui action_{id, label} sono none <== not needed since hardcoded values set before loop
         if prev_action_id != cur_action_id:
             # if we skipped to the next action
