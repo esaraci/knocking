@@ -1,12 +1,11 @@
 \section{Evaluation}
 \subsection{Experimental Setup}
-\todo{spegare le azioni tagliate fuori}
-\todo{spiegare che uso clusterers e classificatori diversi per ogni app}
-\todo{dire che non usiamo il dataset totale e motivare, dire gcloud, dire dtw nello specifico, qui cito i praametri di entrambi gli algoritmi}
+For this work I implemented two scripts using Python 3.6.5. The two scripts represent the two stages of clustering and classification shwon in Figure~\ref{fig:actual}; the first script, named \texttt{clustering.py}, performs the clustering and saves the intermediate representation as a .csv file called \texttt{[appname]\_dataset.csv}. This file is read as input by \texttt{classifier.py} which will consequently perform the classification using the Random Forest algorithm presented in Section~\ref{subsubsec:rfc}. The computed performance measures will be printed to \texttt{stdout}.
+
+\subsubsection{Computational Issue}
+Because of some issues with the functions provided by the Python library \texttt{scipy} I had keep in memory the distance matrix of the flows. In the distance matrix $D$ every entry $(i,j)$ is the vlaue of $dtw(i, j)$ which makes $D$ symmetric, which reduces by half the memory needed for the matrix since I could just compute the tringular upper (or lower) part of $D$. Unfortunately this ``optimization'' was not enough, the
+
+\todo{dire che non usiamo il dataset totale e motivare, dire gcloud, dire computational issues with dtw nello specifico, qui cito i praametri/input/output di entrambi gli algoritmi}
+\todo{spiegare le azioni tagliate fuori}
 \subsection{Experimental Results}
-todo{le confusion matrix, precision recall AP}
-
-
-\subsection{notes on eval}
-\todo{cosa hanno fatto gli autori che io non ho fatto}
-\todo{come sterndere il work}
+\todo{le confusion matrix, precision recall AP}

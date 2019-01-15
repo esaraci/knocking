@@ -66,7 +66,6 @@ def _rename_if_non_relevant(s):
 
 def print_dendrogram(Z):
     # dendrogram
-    print("lul?")
     plt.figure(figsize=(25, 10))
     plt.title('Hierarchical Clustering Dendrogram')
     plt.xlabel('sample index')
@@ -78,6 +77,7 @@ def print_dendrogram(Z):
     )
     plt.show()
 
+
 def load_raw_data(path):
     df = pd.read_csv(path)
     # extracting useful data
@@ -85,15 +85,12 @@ def load_raw_data(path):
     # converting flows to actual lists
     return [_str_to_list(row[1]) for row in fb_data], fb_data
 
-def cdm(flows, dist_func=_abs):
-    return [dtw(flows[i], flows[j], dist_func)[0]
-                          for i in range(N_FLOWS)
-                              for j in range(i+1, N_FLOWS)]
 
 def _triu_indexes():
     # return [(i, j) for i in range(N_FLOWS) for j in range(i+1, N_FLOWS)]
     return [(0, 2000), (2000, 4000), (4000, 6000), (6000, 8000), (8000, N_FLOWS)]
     # return [(0, 1000), (1000, 2000), (2000, 3000), (3000, 4000)]
+
 
 def concurrent_cdm(flows, dist_func, limits):
     # return dtw(flows[pair[0]], flows[pair[1]], dist_func)[0]
@@ -105,12 +102,19 @@ def concurrent_cdm(flows, dist_func, limits):
                               for j in range(i+1, N_FLOWS)]
 
 
+def cdm(flows, dist_func=_abs):
+    return [dtw(flows[i], flows[j], dist_func)[0]
+                          for i in range(N_FLOWS)
+                              for j in range(i+1, N_FLOWS)]
+
+
 def clustering(cdm, linkage_metric="average"):
     # cdm: precomputed condensed distance matrix
     Z = linkage(cdm, method=linkage_metric)
     print_dendrogram(Z)
     exit()
     return fcluster(Z, N_CLUSTERS, criterion='maxclust')
+
 
 def prepare_dataset(res, fb_data):
 
@@ -142,11 +146,12 @@ def prepare_dataset(res, fb_data):
         prev_action_id = cur_action_id
 
         if idx+1 == N_FLOWS:
-            # no more flow to analyze
+            # no more flows to analyze
             # saving this one
             dataset.append((prev_action_label, features))
 
     return dataset
+
 
 def save_dataset(dataset):
     # writing dataset to csv file
@@ -217,7 +222,6 @@ if __name__ == '__main__':
     start_time = time.time()
     print("Clustering and linking started")
     C = clustering(cdm=X, linkage_metric="average")
-    exit()
     print("Clustering finished")
     
     print("[INFO] clustering + linkage=average took {:.3f}s ".format(time.time() - start_time))

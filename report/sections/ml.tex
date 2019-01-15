@@ -64,6 +64,7 @@ open facebook              & 0                               & 9                
 Now that we have a suitable dataset we can apply a supervised classification machine learning algorithm. In this scenario we split the data in two disjunct sets: \textit{training} and \textit{test set}; the first will be used to train the classifier while the other will test if the algorithm actually learned the concept that correlates the intermediate representation $\Phi(A_i)$ to the label $a_i$. The machine learning algorithm chosen is \textbf{Random Forest}.
 
 \subsubsection{Random Forest Classifier}
+\label{subsubsec:rfc}
 The Random Forest Classifier is, as the name says, a classifier; its two main features can also be explained by analyzing its name:
 \begin{itemize}
  \item \textbf{Forest}: it is a collection of decision trees (which are (\textit{weak}) classifiers themselves); if we want to classify a new instance on an already trained forest, what happens under the hood is that the forest will pass that instance to all of its trees and each one of them will return a prediction for that instance; the output of the forest will be the prediction voted the most by its trees.\footnote{Some variants will weight the vote of each tree differently based on their performance.}
