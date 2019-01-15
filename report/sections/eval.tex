@@ -9,7 +9,25 @@ Most of the actions collected in the initial dataset are deemed to be not privac
 
 
 \subsubsection{Computational Issue}
-Because of some issues with the functions provided by the \textit{SciPy} library, I had to keep in memory the distance matrix of the flows. In the distance matrix $D$ each entry $(i,j)$ contains the value of $dtw(i, j)$ which makes $D$ symmetric, which reduces by half the memory needed for the matrix since I could just compute the triangular upper (or lower) part of $D$. Unfortunately this ``optimization'' was not enough; the amount of memory needed was way higher that what my Google Cloud machine had. For this reason I decided to reduce the dataset to about 10,000 flows per application; again this is done in memory by the \textit{clustering.py} script, therefore the original dataset is not modified. After the clustering phase, the generated intermediate dataset contains a number of samples (actions) varying from 2000 to 5000 based on which application is being analyzed. One intermediate dataset is generated for each application.
+Because of some issues with the functions provided by the \textit{SciPy} library, I had to keep in memory the distance matrix of the flows. In the distance matrix $D$ each entry $(i,j)$ contains the value of $dtw(i, j)$ which makes $D$ symmetric, which reduces by half the memory needed for the matrix since I could just compute the triangular upper (or lower) part of $D$. Unfortunately this ``optimization'' was not enough; the amount of memory needed was way higher that what my Google Cloud machine had. For this reason I decided to reduce the dataset to about 10,000 flows per application; again this is done in memory by the \textit{clustering.py} script, therefore the original dataset is not modified. The number of actions in the initial and intermediate datasets can be seen in Table \ref{tab:datasetdata}.
+
+\begin{table}[!h]
+\centering
+\begin{tabular}{|l|c|c|c|}
+\hline
+App      & \multicolumn{2}{c|}{Original Dataset} & Intermediate Dataset \\ \hline
+         & Flows    & Actions [unique labels]    & Actions              \\ \hline
+dropbox  & 48462    & 15103 [33]                 & 3138                 \\ \hline
+evernote & 17014    & 6214 [32]                  & 4239                 \\ \hline
+facebook & 50319    & 12468 [41]                 & 2494                 \\ \hline
+gmail    & 9924     & 5644 [38]                  & 5644                 \\ \hline
+gplus    & 33471    & 17573 [38]                 & 5727                 \\ \hline
+tumblr   & 56702    & 14989 [47]                 & 2726                 \\ \hline
+twitter  & 36259    & 7334 [25]                  & 2009                 \\ \hline
+\end{tabular}
+\caption{\small{The table shows the different number of actions for the different datasets. The smaller number of actions in the intermediate datasets is the result of limiting the number of flows to about 10,000 per application.}}
+\label{tab:datasetdata}
+\end{table}
 
 \todo{qui cito i praametri/input/output di entrambi gli algoritmi}
 \subsection{Experimental Results}
@@ -27,6 +45,7 @@ Because of some issues with the functions provided by the \textit{SciPy} library
 % Actions for tumblr: 14989
 % Actions for twitter: 7334
 
+% unique action labels
 % Actions for dropbox: 33
 % Actions for evernote: 32
 % Actions for facebook: 41
@@ -34,3 +53,21 @@ Because of some issues with the functions provided by the \textit{SciPy} library
 % Actions for gplus: 38
 % Actions for tumblr: 47
 % Actions for twitter: 25
+
+% Actions for dropbox: 33
+% Actions for evernote: 32
+% Actions for facebook: 40 <-- one action is not represented in the intermediate dataset
+% Actions for gmail: 38
+% Actions for gplus: 38
+% Actions for tumblr: 47
+% Actions for twitter: 25
+
+% actions (rows) in intermediate
+% Actions for dropbox: 3138 
+% Actions for evernote: 4239
+% Actions for facebook: 2494
+% Actions for gmail: 5644
+% Actions for gplus: 5727
+% Actions for tumblr: 2726
+% Actions for twitter: 2009
+

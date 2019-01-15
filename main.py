@@ -21,6 +21,7 @@ import time
 
 
 """
+KEEP THESE LINES AS A "BACKUP"
 _CONSTS = {"facebook"     :(0, 9829),
              "twitter"      :(50319, 60742),
              "gmail"        :(86578, 96501),
@@ -32,10 +33,8 @@ _CONSTS = {"facebook"     :(0, 9829),
 
 """
 
-
-
 # ugly but easier
-_CONSTS = {"facebook"     :(0, 20),
+_CONSTS = {"facebook"       :(0, 9829),
              "twitter"      :(50319, 60742),
              "gmail"        :(86578, 96501),
              "gplus"        :(96502, 107293),
@@ -44,24 +43,13 @@ _CONSTS = {"facebook"     :(0, 20),
              "evernote"     :(235137, 246620)
              }
 
+
 def _str_to_list(s):
     return [int(sub.replace("[", "").replace("]", "")) for sub in s.split(",")]
 
+
 def _abs(x1, x2):
     return abs(x1-x2)
-
-
-# TODO: this has to moved in the classification algorithm
-def _rename_if_non_relevant(s):
-    D =  ["send message selection",
-          "open facebook" ,
-          "status post selection",
-          "post button selection",
-          "user profile selection",
-          "first conversation selection",
-          "status selection"]
-
-    return "other" if s not in D else s
 
 
 def print_dendrogram(Z):
@@ -87,6 +75,7 @@ def load_raw_data(path):
 
 
 def _triu_indexes():
+    # function name is misleading
     # return [(i, j) for i in range(N_FLOWS) for j in range(i+1, N_FLOWS)]
     return [(0, 2000), (2000, 4000), (4000, 6000), (6000, 8000), (8000, N_FLOWS)]
     # return [(0, 1000), (1000, 2000), (2000, 3000), (3000, 4000)]
@@ -110,9 +99,8 @@ def cdm(flows, dist_func=_abs):
 
 def clustering(cdm, linkage_metric="average"):
     # cdm: precomputed condensed distance matrix
+    # memory issues for large number of flows
     Z = linkage(cdm, method=linkage_metric)
-    print_dendrogram(Z)
-    exit()
     return fcluster(Z, N_CLUSTERS, criterion='maxclust')
 
 
@@ -156,7 +144,7 @@ def prepare_dataset(res, fb_data):
 def save_dataset(dataset):
     # writing dataset to csv file
     with open('./{}_dataset.csv'.format(ENV_TASK), 'w') as f:
-        # header row
+        # building headers
         # C1, C2,..., Cn, action
         headers = ""
         for i in range(N_CLUSTERS):
@@ -165,7 +153,7 @@ def save_dataset(dataset):
         f.write(headers)
 
         # data rows
-        # firs clusters, then action label
+        # first clusters, then action label
         # row[0] = action label
         # row[1] = list of cluters (features)
         for row in dataset:
@@ -207,14 +195,11 @@ if __name__ == '__main__':
         caller = partial(concurrent_cdm, F, _abs)
         X = pool.map(caller, X_indexes)
         X = list(itertools.chain(*X))
-
-        # print("CDM build...")
         # np.savetxt("./async.txt", X)
     
     else:
         X = cdm(flows=F, dist_func=_abs)
         # np.savetxt("./sync.txt", X)
-
 
 
 
@@ -225,7 +210,6 @@ if __name__ == '__main__':
     print("Clustering finished")
     
     print("[INFO] clustering + linkage=average took {:.3f}s ".format(time.time() - start_time))
-
 
     # DATASET CREATION RELATED
     start_time = time.time()
