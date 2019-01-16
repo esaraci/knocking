@@ -1,52 +1,59 @@
-import pandas as pd
-import numpy as np
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import confusion_matrix, precision_score, accuracy_score, recall_score, f1_score
-from sklearn.ensemble import RandomForestClassifier
-import matplotlib.pyplot as plt
+#! /usr/bin/env python
+
 import itertools
+import sys
 
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import precision_recall_fscore_support, confusion_matrix
+from sklearn.model_selection import train_test_split
 
-# i dont think i need this structure, but it's helpful.
 D = {
 
+    "facebook": ["send message selection", "open facebook", "status post selection",
+                 "post button selection", "user profile selection", "first conversation selection",
+                 "status selection"],
 
-    "facebook": ["send message selection", "open facebook" , "status post selection",
-                "post button selection", "user profile selection", "first conversation selection",
-                "status selection"],
+    "gmail": ["sending mail", "reply selection", "chats selection", "sending mail reply"],
 
-    "gmail":    ["sending mail", "reply selection", "chats selection", "sending mail reply"],
-
-    "twitter":  ["open Twitter", "contact selection", "refresh home",
+    "twitter": ["open Twitter", "contact selection", "refresh home",
                 "send selection", "send tweet selection", "direct messages selection",
                 "tweets selection"],
 
-    "dropbox":  ["open dropbox", "file favorite", "favorites",
-                "delete file confirm", "delete folder confirm", "folder creation", 
+    "dropbox": ["open dropbox", "file favorite", "favorites",
+                "delete file confirm", "delete folder confirm", "folder creation",
                 "open file", "open folder", "file text input"],
 
-    "gplus":    ["open gplus", "refresh", "user page", "new selection",
-                "send new post", "post selection", "post delete confirm",
-                "plus post", "comment send", "back to main"],
+    "gplus": ["open gplus", "refresh", "user page", "new selection",
+              "send new post", "post selection", "post delete confirm",
+              "plus post", "comment send", "back to main"],
 
     "evernote": ["open evernote", "market selection", "new note title input",
-                "done text note", "done note edit", "done audio note"]
+                 "done text note", "done note edit", "done audio note"]
 
-    }
+    # tumblr actions are not clear, cant find the righ association with the paper
+    # "tumblr":   ["open tumblr", "user page", "user likes", "following page", "home page"]
+
+}
 
 
 def _rename_if_non_relevant(s, app):
+    """
+    :param s: string to be checked
+    :param app: string used as a key for @D, it's the app name
+    :return: 'other' when @s is not in @D[s] else returns @s itself
+    """
 
-    
-    # extra very boring things
-
+    # the authors identified that some actions are fairly similar
+    # it is useful to put them under the same target class
     if app == "twitter" and (s == "send tweet selection" or s == "send selection"):
         return "send tweet/message"
 
     if app == "dropbox" and (s == "open file" or s == "open folder"):
         return "open file/folder"
 
-    
     return "other" if s not in D[app] else s
 
 
@@ -80,39 +87,49 @@ def plot_confusion_matrix(cm, classes,
     # plt.tight_layout()
 
 
-# choose application
-task = "dropbox"
-dataset = pd.read_csv("./datasets/{}_dataset.csv".format(task))
+if __name__ == '__main__':
 
-n_clusters = len(dataset.columns)-1
-data    = dataset.loc[:, "C1":"C{}".format(n_clusters)].values
-target  = [_rename_if_non_relevant(s, task) for s in dataset.loc[:, "action"].values]
+    # [MAIN]
+    # if len(sys.argv) < 2:
+    #     exit("Usage: ./classifier.py APPNAME")
+    # else:
+    #     ENV_TASK = sys.argv[1]
 
-X_train, X_test, y_train, y_test = train_test_split(data, target, random_state=1337)
+    ENV_TASK = "gplus"
 
-rfc = RandomForestClassifier(random_state=1337)
-rfc.fit(X_train, y_train)
-y_pred = rfc.predict(X_test)
+    # [LOADING DATASET]
+    dataset = pd.read_csv("./datasets/{}_dataset_100.csv".format(ENV_TASK))
 
+    # [DATASET 'PREPROCESSING']
+    n_clusters = len(dataset.columns) - 1
+    data = dataset.loc[:, "C1":"C{}".format(n_clusters)].values
+    target = [_rename_if_non_relevant(s, ENV_TASK) for s in dataset.loc[:, "action"].values]
 
-# Compute confusion matrix
-cnf_matrix = confusion_matrix(y_test, y_pred)
-np.set_printoptions(precision=2)
+    # [HOLDOUT]
+    X_train, X_test, y_train, y_test = train_test_split(data, target, random_state=1337)
 
-# Plot normalized confusion matrix
-plt.figure()
-cm_classes = D[task]
-cm_classes.append("other")
-cm_classes.sort()
+    # [TRAINING AND TESTING]
+    rfc = RandomForestClassifier(random_state=1337)
+    rfc.fit(X_train, y_train)
+    y_pred = rfc.predict(X_test)
 
-plot_confusion_matrix(cnf_matrix, classes=cm_classes, normalize=True,
-                     title='Not Normalized confusion matrix')
+    # [COMPUTING CONFUSION MATRIX]
+    cnf_matrix = confusion_matrix(y_test, y_pred)
+    np.set_printoptions(precision=2)
 
-# plt.savefig("cm.png")
-# plt.show()
+    # [PLOTTING CONFUSION MATRIX]
+    # make sure that the target path exists
+    plt.figure()
+    plot_confusion_matrix(cnf_matrix, classes=np.unique(target), normalize=True,
+                          title='Normalized confusion matrix')
+    plt.savefig("./images/cm_{}.png".format(ENV_TASK))
+    # plt.show()
 
-print("F1:", f1_score(y_test, y_pred, average="weighted"))
-print("P:", precision_score(y_test, y_pred, average="weighted"))
-print("R:", recall_score(y_test, y_pred, average="weighted"))
-# print("ACC:", accuracy_score(y_test, y_pred))
-# print(rfc.score(X_test, y_test))
+    # [EVALUATION]
+    prec, rec, f1, _ = precision_recall_fscore_support(y_test, y_pred, average="weighted", warn_for=())
+
+    # [PRINTING SCORES]
+    print("---[scores for {}]---".format(ENV_TASK))
+    print("P:", prec)
+    print("R:", rec)
+    print("F1:", f1)
