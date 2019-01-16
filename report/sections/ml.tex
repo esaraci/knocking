@@ -6,7 +6,7 @@
 \begin{figure}[h]
  \centering
  \includegraphics{images/ideal}
- \caption{\small{The ideal model predicti the label $a_i$ for the a new input instance $A_i$.}}
+ \caption{\small{The ideal model predicting the label $a_i$ for the a new input instance $A_i$.}}
  \label{fig:ideal}
 \end{figure}
 
@@ -19,16 +19,16 @@ In the remainder of this section we describe the algorithms used in the two stag
 \begin{figure}[h]
  \centering
  \includegraphics{images/actual}
- \caption{\small{The two step classification of a new sample; first the new sample $A_i$ goes through the clustering algorithm which computes the intermediate representation $\Phi(A_i)$, then $\Phi(A_i)$ is used by the classifier to predict the correct label $a_i$. $k$ is the number of clusters, a more detailed description of $k$ and $\Phi$ can be found in \ref{subsubsec:hac}, \ref{subsubsec:fexc}.}}
+ \caption{\small{The two step classification of a new sample; first the new sample $A_i$ goes through the clustering algorithm which computes the intermediate representation $\Phi(A_i)$, then $\Phi(A_i)$ is used by the classifier to predict the correct label $a_i$. $k$ is the number of clusters, a more detailed description of $k$ and $\Phi$ can be found in subsections~\ref{subsubsec:hac} and \ref{subsubsec:fexc}.}}
  \label{fig:actual}
 \end{figure}
 
 \subsection{Clustering}
-In the typical unsupervised clustering scenario the goal of the algorithm is to find $k$ groups called clusters, where the \textit{inter-cluster} similarity is very low while the \textit{intra-cluster} similarity is maximized, meaning that samples belonging to one clusters are very similar to each other while still being very different from samples belonging to other clusters. Notice that the number of clusters $k$ and the similarity function between samples have to be explicitly defined by the teacher. The input of the clustering algorithm is usually the whole datset while its output is a list of intergers $[c_i,\dots, c_N]$ where $N$ is the total number of samples and $c_i \in [1;k]$ is a an integer number that denotes the cluster to which the $i$-th sample has been assigned by the algorithm.
+In the typical unsupervised clustering scenario the goal of the algorithm is to find $k$ groups called clusters, where the \textit{inter-cluster} similarity is very low while the \textit{intra-cluster} similarity is maximized, meaning that samples belonging to one clusters are very similar to each other while still being very different from samples belonging to other clusters. Notice that the number of clusters $k$ and the similarity function between samples have to be explicitly defined by the teacher. The input of the clustering algorithm is usually the whole dataset while its output is a list of integers $[c_i,\dots, c_N]$ where $N$ is the total number of samples and $c_i \in [1;k]$ is a an integer number that denotes the cluster to which the $i$-th sample has been assigned by the algorithm.
 
 \subsubsection{Hierarchical Agglomerative Clustering}
 \label{subsubsec:hac}
-In this specific instance I used (as suggeseted in the papers) a \textbf{Hierachical Agglomerative Clustering}, \textbf{HAC} for short. HAC starts by creating a cluster for each flow; at each step HAC reduces the number of clusters by merging (agglomerative) the closest clusters together based on the distance function and other parameters; HAC will stop whenever the desired number of clusters $k$ is reached. The structure that HAC exploits can be seen as a tree (hierachical), that structure is called dendrogram; in Figure \ref{fig:dendro} we can see the dendrogram for 20 samples (i.e. 20 flows). In my implementation the input consists in all the flows contained in the dataset\footnote{We are just using flows now, the concept of ``actions'' is being ignored for the moment since it is not really needed for the clustering stage.}, the number of clusters $k$ is set to $50$, and the distance function used to compute similarity between flows is the Dynamic Time Warping described in the following paragraph.
+In this specific instance I used (as suggested in the papers) a \textbf{Hierachical Agglomerative Clustering}, \textbf{HAC} for short. HAC starts by creating a cluster for each flow; at each step HAC reduces the number of clusters by merging (agglomerative) the closest clusters together based on the distance function and other parameters; HAC will stop whenever the desired number of clusters $k$ is reached. The structure that HAC exploits can be seen as a tree (hierachical), that structure is called dendrogram; in Figure \ref{fig:dendro} we can see the dendrogram for 20 samples (i.e. 20 flows). In my implementation the input consists in all the flows contained in the dataset\footnote{We are just using flows now, the concept of ``actions'' is being ignored for the moment since it is not really needed for the clustering stage.}, the number of clusters $k$ is set to $50$, and the distance function used to compute similarity between flows is the Dynamic Time Warping described in the following paragraph.
 
 \begin{figure}[!h]
  \centering
@@ -55,7 +55,7 @@ open facebook              & 0                               & 11               
 writing search             & 1                               & 1                               & \dots                              & 5                                \\
 back to news               & 0                               & 0                               & \dots                              & 0                                \\
 open facebook              & 0                               & 9                               & \dots                              & 5                                \\
-\multicolumn{1}{c}{\vdots} & \vdots                          &                                 & \vdots                             & \vdots                           \\ \bottomrule
+\multicolumn{1}{c}{\dots} & \dots                          &                                 & \dots                             & \dots                           \\ \bottomrule
 \end{tabular}
 \caption{\small{Format of the new dataset. We can see that 11 flows of the first action ended up in cluster number 2, while 6 of them ended up in the last cluster.}}
 \end{table}
@@ -85,7 +85,7 @@ To better understand how Random Forest works it is worth mentioning the basic st
 \end{itemize}
 
 \paragraph{Mechanisms of Decision Trees}
-The aim of the Decision Tree is to generate at each node the purest possible subsets, to do so it uses (im)purity measures (Information Gain) or dispersion measures (Gini Index). At each node only one feature is tested, the outgoing arcs of a node are the number of possible values that the feature can assume (if discrete) or a threshold value (if real), in which case only two arcs will be generated. Both the feature and the threshold (if any) are chosen based on the criteria cited previously. Adding to what have been said in the previous paragraph: a leaf node can be formed also when there are no more features to test (they have all been tested in previous nodes), in this case the prediction of the leaf node will be the \textit{action label} with higher frequency on that subset. A part of a Decision Tree can be seen in Figure \ref{fig:tree}, the colors and their intenisity are used to highlight which \textit{action label} is more frequent at each node.
+The aim of the Decision Tree is to generate at each node the purest possible subsets, to do so it uses (im)purity measures (Information Gain) or dispersion measures (Gini Index). At each node only one feature is tested, the outgoing arcs of a node are the number of possible values that the feature can assume (if discrete) or a threshold value (if real), in which case only two arcs will be generated. Both the feature and the threshold (if any) are chosen based on the criteria cited previously. Adding to what have been said in the previous paragraph: a leaf node can be formed also when there are no more features to test (they have all been tested in previous nodes), in this case the prediction of the leaf node will be the \textit{action label} with higher frequency on that subset. A part of a Decision Tree can be seen in Figure \ref{fig:tree}, the colors and their intensity are used to highlight which \textit{action label} is more frequent at each node.
 
 \begin{figure}[!h]
  \centering

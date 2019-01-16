@@ -94,7 +94,7 @@ def load_raw_data(path):
     data = df.loc[ENV_STARTING_INDEX:ENV_LAST_INDEX, ["action_start", "packets_length_total", "action"]].values
     # converting flows to actual lists
 
-    return [_str_to_list(row[1]) for row in data], data[:, [0, 1]]
+    return [_str_to_list(row[1]) for row in data], data[:, [0, 2]]
 
 
 def _triu_indexes():
@@ -102,14 +102,12 @@ def _triu_indexes():
     function name is misleading, it was initially used for other purposes.
     it is only used when CONCURRENT_EXEC = True, it returns
     a list of pairs denoting the staring index and the last index of flows
-    to be analyzed. Used to split the jobs between the executors.
-    th
+    to be analyzed. It's used to split the jobs among threads.
     :return:
     """
-    # function name is misleading
     # return [(i, j) for i in range(N_FLOWS) for j in range(i+1, N_FLOWS)]
     return [(0, 2000), (2000, 4000), (4000, 6000), (6000, 8000), (8000, N_FLOWS)]
-    # return [(0, 1000), (1000, 2000), (2000, 3000), (3000, 4000)]
+    # return [(0, 4000), (4000, 8000), (8000, 12000), (12000, 16000), (16000, N_FLOWS)]
 
 
 def concurrent_cdm(flows, dist_func, limits):
@@ -152,7 +150,6 @@ def clustering(cdm, linkage_metric="average"):
 
 def prepare_samples(clusters, data):
     """
-
     :param clusters: the output of `clustering`, its length is N_FLOWS, each entry has a value
     in [1, N_CLUSTERS] which denotes the cluster assigned to the i-th entry (or flow).
     :param data: data containing "action ids" and action labels, the i-th entry of data contains the action_label
