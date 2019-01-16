@@ -2,6 +2,7 @@
 
 import itertools
 import time
+import sys
 from functools import partial
 from multiprocessing import Pool
 
@@ -202,7 +203,7 @@ def save_dataset(samples):
     :return: None
     """
     # writing dataset to csv file
-    with open('./{}_dataset_250.csv'.format(ENV_TASK), 'w') as f:
+    with open('./{}_dataset_{}.csv'.format(ENV_TASK, N_CLUSTERS), 'w') as f:
         # building headers
         # C1, C2,..., Cn, action
         headers = ""
