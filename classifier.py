@@ -72,7 +72,7 @@ def plot_confusion_matrix(cm, classes,
     plt.title(title)
     plt.colorbar()
     tick_marks = np.arange(len(classes))
-    plt.xticks(tick_marks, classes, rotation=45, fontsize=5)
+    plt.xticks(tick_marks, classes, rotation=60, fontsize=7)
     plt.yticks(tick_marks, classes)
 
     fmt = '.2f' if normalize else 'd'
@@ -90,12 +90,12 @@ def plot_confusion_matrix(cm, classes,
 if __name__ == '__main__':
 
     # [MAIN]
-    # if len(sys.argv) < 2:
-    #     exit("Usage: ./classifier.py APPNAME")
-    # else:
-    #     ENV_TASK = sys.argv[1]
+    if len(sys.argv) < 2:
+        exit("Usage: ./classifier.py APPNAME")
+    else:
+        ENV_TASK = sys.argv[1]
 
-    ENV_TASK = "dropbox"
+    # ENV_TASK = "dropbox"
 
     # [LOADING DATASET]
     dataset = pd.read_csv("./datasets/{}_dataset_250.csv".format(ENV_TASK))
@@ -130,6 +130,6 @@ if __name__ == '__main__':
 
     # [PRINTING SCORES]
     print("---[scores for {}]---".format(ENV_TASK))
-    print("P:", prec)
-    print("R:", rec)
-    print("F1:", f1)
+    print("P: {:.2f}".format(prec))
+    print("R: {:.2f}".format(rec))
+    print("F1: {:.2f}".format(f1))

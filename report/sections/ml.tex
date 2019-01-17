@@ -28,7 +28,7 @@ In the typical unsupervised clustering scenario the goal of the algorithm is to 
 
 \subsubsection{Hierarchical Agglomerative Clustering}
 \label{subsubsec:hac}
-In this specific instance I used (as suggested in the papers) a \textbf{Hierachical Agglomerative Clustering}, \textbf{HAC} for short. HAC starts by creating a cluster for each flow; at each step HAC reduces the number of clusters by merging (agglomerative) the closest clusters together based on the distance function and other parameters; HAC will stop whenever the desired number of clusters $k$ is reached. The structure that HAC exploits can be seen as a tree (hierachical), that structure is called dendrogram; in Figure \ref{fig:dendro} we can see the dendrogram for 20 samples (i.e. 20 flows). In my implementation the input consists in all the flows contained in the dataset\footnote{We are just using flows now, the concept of ``actions'' is being ignored for the moment since it is not really needed for the clustering stage.}, the number of clusters $k$ is set to $50$, and the distance function used to compute similarity between flows is the Dynamic Time Warping described in the following paragraph.
+In this specific instance I used (as suggested in the papers) a \textbf{Hierachical Agglomerative Clustering}, \textbf{HAC} for short. HAC starts by creating a cluster for each flow; at each step HAC reduces the number of clusters by merging (agglomerative) the closest clusters together based on the distance function and other parameters; HAC will stop whenever the desired number of clusters $k$ is reached. The structure that HAC exploits can be seen as a tree (hierachical), that structure is called dendrogram; in Figure \ref{fig:dendro} we can see the dendrogram for 20 samples (i.e. 20 flows). In my implementation the input consists in all the flows contained in the dataset\footnote{We are just using flows now, the concept of ``actions'' is being ignored for the moment since it is not really needed for the clustering stage.}, the number of clusters $k$ is set to $250$, and the distance function used to compute similarity between flows is the Dynamic Time Warping.
 
 \begin{figure}[!h]
  \centering
@@ -50,7 +50,7 @@ The HAC output is, as stated before, a list of $N$ integers $[c_1,\dots, c_N]$ w
 \centering
 \begin{tabular}{@{}lcccc@{}}
 \toprule
-\textbf{action\_label}     & \multicolumn{1}{l}{\textbf{C1}} & \multicolumn{1}{l}{\textbf{C2}} & \multicolumn{1}{l}{\textbf{\dots}} & \multicolumn{1}{l}{\textbf{C50}} \\ \midrule
+\textbf{action\_label}     & \multicolumn{1}{l}{\textbf{C1}} & \multicolumn{1}{l}{\textbf{C2}} & \multicolumn{1}{l}{\textbf{\dots}} & \multicolumn{1}{l}{\textbf{C250}} \\ \midrule
 open facebook              & 0                               & 11                              & \dots                              & 6                                \\
 writing search             & 1                               & 1                               & \dots                              & 5                                \\
 back to news               & 0                               & 0                               & \dots                              & 0                                \\

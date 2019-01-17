@@ -97,7 +97,7 @@ def load_raw_data(path):
     return [_str_to_list(row[1]) for row in data], data[:, [0, 2]]
 
 
-def _triu_indexes():
+def _triu_indexes(start=0, end=1523):
     """
     function name is misleading, it was initially used for other purposes.
     it is only used when CONCURRENT_EXEC = True, it returns
