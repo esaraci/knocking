@@ -1,0 +1,77 @@
+STARTING
+Building CDM concurrently...
+[INFO] cdm took 1803.576s]
+Clustering and linking started
+Clustering finished
+[INFO] clustering + linkage=average took 6.407s 
+Bulding dataset...
+[INFO] prepare_dataset took 0.675s
+Saving dataset...
+[INFO] save_dataset took 0.467s
+FINISHED
+STARTING
+Building CDM concurrently...
+[INFO] cdm took 3216.028s]
+Clustering and linking started
+Clustering finished
+[INFO] clustering + linkage=average took 9.946s 
+Bulding dataset...
+[INFO] prepare_dataset took 1.609s
+Saving dataset...
+[INFO] save_dataset took 0.634s
+FINISHED
+STARTING
+Building CDM concurrently...
+[INFO] cdm took 3132.348s]
+Clustering and linking started
+Clustering finished
+[INFO] clustering + linkage=average took 7.785s 
+Bulding dataset...
+[INFO] prepare_dataset took 0.043s
+Saving dataset...
+[INFO] save_dataset took 0.392s
+FINISHED
+STARTING
+Building CDM concurrently...
+[INFO] cdm took 4094.248s]
+Clustering and linking started
+Clustering finished
+[INFO] clustering + linkage=average took 7.720s 
+Bulding dataset...
+[INFO] prepare_dataset took 1.146s
+Saving dataset...
+[INFO] save_dataset took 0.865s
+FINISHED
+STARTING
+Building CDM concurrently...
+[INFO] cdm took 7694.713s]
+Clustering and linking started
+Clustering finished
+[INFO] clustering + linkage=average took 9.534s 
+Bulding dataset...
+[INFO] prepare_dataset took 0.762s
+Saving dataset...
+[INFO] save_dataset took 0.899s
+FINISHED
+STARTING
+Building CDM concurrently...
+[INFO] cdm took 7038.748s]
+Clustering and linking started
+Clustering finished
+[INFO] clustering + linkage=average took 8.193s 
+Bulding dataset...
+[INFO] prepare_dataset took 0.732s
+Saving dataset...
+[INFO] save_dataset took 0.423s
+FINISHED
+STARTING
+Building CDM concurrently...
+[INFO] cdm took 1546.599s]
+Clustering and linking started
+Clustering finished
+[INFO] clustering + linkage=average took 7.707s 
+Bulding dataset...
+[INFO] prepare_dataset took 0.047s
+Saving dataset...
+[INFO] save_dataset took 0.304s
+FINISHED
