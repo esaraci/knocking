@@ -25,7 +25,7 @@ Please note that all of the above can be subscripted by indexes; a subscripted e
 By this follows that $A_i = [F_1, \dots, F_n]_i$ and $F_i = [p_1,\dots, p_m]_i$. Note that $n$ and $m$ are possibly (and probably) different for each flow $F_i$ and for each action $A_i$, even for two actions $A_i, A_j$ where $a_i = a_j$.
 
 \subsection{Dataset}
-The dataset consists of 252,151 rows (samples) and 12 columns (features), moreover, the data collected contains packets of different actions for 7 different Android applications: Facebook, Twitter, Gmail, Google Plus, Tumblr, Dropbox, and Evernote. 
+The dataset consists of 252,151 rows (samples) and 12 columns (features), moreover, the data collected contains packets of different actions for 7 different Android applications: Facebook, Twitter, Gmail, Google Plus, Tumblr\footnote{Because of some inconsistencies between the papers and the dataset, I could not provide a classifier for the Tumblr's actions.}, Dropbox, and Evernote. 
 
 In Table \ref{tab:origdataset} we can see the format of the dataset. I have purposively hidden some of the columns since I do not use them in this work. In the table we can see that each row contains the features of a single flow; to decide which flows belong to which action we compare the \textit{sequence\_start} field which is a fake but consistent timestamp of when the user started that action; When two rows have the same timestamp we can safely assume that they belong to the same action.
 

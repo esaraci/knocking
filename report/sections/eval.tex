@@ -32,11 +32,10 @@ Because of some issues with the functions provided by the \textit{SciPy} library
 
 
 \subsubsection{Differences from the original work}
-Apart from the smaller number of flows used for training phase, there are still other differences from the original work throughout my implementation. First of all the original authors weighted differently incoming and outgoing packets, secondly, they never considered all the packets of a flow, but, through statistical analysis, they decided take into consideration only packets who were to be found in specific hard coded ranges. Both these approaches allowed them to test different configurations which then lead to a maximization of the performance of the classifier. Same thing goes for the number of clusters: they evaluated the fitness of the clustering based on the random forest performances on it, this means that the number of clusters $k$ they chose was obtained through this form of parameter tuning. While I do agree on the methodology they used, I am not able to follow the same path due mainly to time and computational constraints. Luckily, however, by looking at the images of the original work I could grasp that the best value for $k$, the number of clusters, was close to 250, which is the value I used for this work.  
+Apart from the smaller number of flows used for training phase, there are still other differences from the original work throughout my implementation. First of all the original authors weighted differently incoming and outgoing packets, secondly, they never considered all the packets of a flow, but, through statistical analysis, they decided take into consideration only packets who were to be found in specific hard coded ranges. Both these approaches allowed them to test different configurations which then lead to a maximization of the performance of the classifier. Same thing goes for the number of clusters: they evaluated the fitness of the clustering based on the random forest performances on it, this means that the number of clusters $k$ they chose was obtained through this form of parameter tuning. While I do agree on the methodology they used, I am not able to follow the same path due mainly to time and computational constraints. Luckily, however, by looking at the images of the original work (Figure \ref{fig:original}) I could grasp that the best value for $k$, the number of clusters, was close to 250, which is the value I used for this work.  
 
 \subsection{Experimental Results}
-In Table \ref{tab:results} are shown the results using the same metrics employed in the original work: \textit{precision} ($P$), \textit{recall} ($R$), and \textit{F1 measure} ($F_1$). Being this a multiclass problem (the multiple classes being the \textit{action labels}), the shown results are the weighted average of the measures obtained for each class.
-
+In Table \ref{tab:results} are shown the results using the same metrics employed in the original work: \textit{precision} ($P$), \textit{recall} ($R$), and \textit{F1 measure} ($F_1$). Being this a multiclass problem (the multiple classes being the \textit{action labels}), the shown results are the weighted averages of the measures obtained for each class. The scores are almost identical to those achieved in the original work as shown in Figure~\ref{fig:original}. 
 
 \begin{table}[h]
 \centering
@@ -50,29 +49,17 @@ GMail    &   0.86  &   0.91  &   0.88    \\
 GPlus    &  0.78   &  0.81   &   0.79    \\
 Twitter  &  0.99   &  0.99   &   0.99    \\ \hline
 \end{tabular}
-\caption{Precision, recall, and F1 values for the different apps. For the clustering process}
+\caption{Precision, recall, and F1 values for the different apps. }
 \label{tab:results}
 \end{table}
 
-
 \begin{figure}[h]
-\begin{subfigure}{.5\textwidth}
-  \centering
-  \includegraphics[scale=0.45]{images/best}
-  \caption{1a}
+\centering
+\includegraphics[scale=0.5]{images/fig10}
   \label{fig:sfig1}
-\end{subfigure}%
-\begin{subfigure}{.5\textwidth}
-  \centering
-  \includegraphics[scale=0.45]{images/worst}
-  \caption{1b}
-  \label{fig:sfig2}
-\end{subfigure}
-\caption{plots of....}
-\label{fig:fig}
+\caption{The performances of the classifier used by the original authors for different number of clusters. This figure is taken from \cite{contiknocking} just for comparison; it shows that for $k=250$ (marked by the red vertical line), the original authors and I achieved more or less same performances.}
+\label{fig:original}
 \end{figure}
-
-
 
 % ['dropbox', 'evernote', 'facebook', 'gmail', 'gplus', 'tumblr',
 %        'twitter'], dtype=object), array([48462, 17014, 50319,  9924, 33471, 56702, 36259]))

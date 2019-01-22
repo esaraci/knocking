@@ -72,8 +72,8 @@ def plot_confusion_matrix(cm, classes,
     plt.title(title)
     plt.colorbar()
     tick_marks = np.arange(len(classes))
-    plt.xticks(tick_marks, classes, rotation=60, fontsize=7)
-    plt.yticks(tick_marks, classes)
+    plt.xticks(tick_marks, classes, rotation=60, fontsize=8)
+    plt.yticks(tick_marks, classes, fontsize=8)
 
     fmt = '.2f' if normalize else 'd'
     thresh = cm.max() / 2.
@@ -89,13 +89,13 @@ def plot_confusion_matrix(cm, classes,
 
 if __name__ == '__main__':
 
-    # [MAIN]
-    if len(sys.argv) < 2:
-        exit("Usage: ./classifier.py APPNAME")
-    else:
-        ENV_TASK = sys.argv[1]
+    # [MAIN] command line execution
+    # if len(sys.argv) < 2:
+    #     exit("Usage: ./classifier.py APPNAME")
+    # else:
+    #     ENV_TASK = sys.argv[1]
 
-    # ENV_TASK = "dropbox"
+    ENV_TASK = "facebook"
 
     # [LOADING DATASET]
     dataset = pd.read_csv("./datasets/{}_dataset_250.csv".format(ENV_TASK))
@@ -121,15 +121,23 @@ if __name__ == '__main__':
     # make sure that the target path exists
     plt.figure()
     plot_confusion_matrix(cnf_matrix, classes=np.unique(target), normalize=True,
-                          title='Normalized confusion matrix')
-    plt.savefig("./images/cm_{}_250.png".format(ENV_TASK))
-    # plt.show()
+                          title='Normalized confusion matrix for {}'.format(ENV_TASK))
+    # plt.savefig("./images/cm_{}_250.png".format(ENV_TASK))
+    plt.show()
 
     # [EVALUATION]
-    prec, rec, f1, _ = precision_recall_fscore_support(y_test, y_pred, average="weighted", warn_for=())
+    average_results = True
+    if average_results:
+        prec, rec, f1, _ = precision_recall_fscore_support(y_test, y_pred, average="weighted", warn_for=())
 
-    # [PRINTING SCORES]
-    print("---[scores for {}]---".format(ENV_TASK))
-    print("P: {:.2f}".format(prec))
-    print("R: {:.2f}".format(rec))
-    print("F1: {:.2f}".format(f1))
+        print("---[scores for {}]---".format(ENV_TASK))
+        print("P: {:.2f}".format(prec))
+        print("R: {:.2f}".format(rec))
+        print("F1: {:.2f}".format(f1))
+
+    else:
+        prec, rec, f1, _ = precision_recall_fscore_support(y_test, y_pred, average=None, warn_for=())
+        print(np.unique(target))
+        print("P: {}".format(prec))
+        print("R: {}".format(rec))
+        print("F1: {}".format(f1))

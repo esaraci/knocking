@@ -102,7 +102,8 @@ def _triu_indexes(start=0, end=1523):
     function name is misleading, it was initially used for other purposes.
     it is only used when CONCURRENT_EXEC = True, it returns
     a list of pairs denoting the staring index and the last index of flows
-    to be analyzed. It's used to split the jobs among threads.
+    to be analyzed. It's used to split the jobs among threads. Keeping it manual
+    just because it's easier to perform experiments
     :return:
     """
     # return [(i, j) for i in range(N_FLOWS) for j in range(i+1, N_FLOWS)]
@@ -271,7 +272,7 @@ if __name__ == '__main__':
 
     # DATASET CREATION RELATED
     start_time = time.time()
-    print("Bulding dataset...")
+    print("Building dataset...")
     dataset = prepare_samples(clusters=C, data=D)
     print("[INFO] prepare_dataset took {:.3f}s".format(time.time() - start_time))
 
