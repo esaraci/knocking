@@ -1,14 +1,8 @@
 # Digital Forensics Project - 18/19
-
 ## Project 1 - Packet classification for mobile applications
-
-This work is based on [[1]](https://dl.acm.org/citation.cfm?id=2699119) and [[2]]()
-
 ___
 
-
-
-### Instructions
+## Instructions
 
 #### `clustering.py`
 
@@ -37,7 +31,6 @@ else:
 ENV_TASK = "facebook"
 ```
 
-___
 #### `classifier.py`
 
 ```bash
