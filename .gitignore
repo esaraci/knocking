@@ -3,6 +3,8 @@
 logs/
 papers/
 apps_total_plus_filtered_csv.zip
+utils.py
+__init__.py
 
 ## Core latex/pdflatex auxiliary files:
 *.aux
