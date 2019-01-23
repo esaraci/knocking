@@ -1,8 +1,26 @@
 # Digital Forensics Project - 18/19
-## Project 1 - Packet classification for mobile applications
+Project 1 - Packet classification for mobile applications
+
+> The large expansion of SSL/TLS in the last years has made it harder
+for attackers to collect clear text information through packet sniffing or,
+more in general, through network traffic analysis. The main reason for this
+is that SSL/TLS encrypts the traffic between two endpoints, which means
+that even though packets can still be easily captured, no useful information
+can be inferred from the packet’s content without having the encryption
+keys.
+> The authors of [1] and [2] showed that by training a machine learning
+algorithm with encrypted traffic data, one could correctly classify which
+actions a user performed while using some of the most common Android
+applications such as Facebook, Gmail, or Twitter. This could easily lead,
+through correlation attacks, to the full deanonimization of fake, privacy
+preserving identities.
+> In this work I try to reproduce the results achieved in [1] and [2] by
+implementing the classification model described in the papers.
+
+For more information read the papers in \[1\] and \[2\] or my [REPORT](report/main.pdf).
 ___
 
-## Instructions
+## :bookmark_tabs: Instructions
 
 #### `clustering.py`
 
@@ -12,23 +30,6 @@ $ ./clustering.py DATASET
 
 # alternatively
 $ python clustering.py DATASET
-```
-
-DATASET is a value taken from `{dropbox, evernote, facebook, gmail, gplus, twitter}`
-
-DATASER can be set in the source code when debugging, just comment the lines
-
-```python
-if len(sys.argv) < 2:
-    exit("Usage: ./clustering.py APPNAME")
-else:
-    ENV_TASK = sys.argv[1]
-```
-
- and set 
-
-```python
-ENV_TASK = "facebook"
 ```
 
 #### `classifier.py`
@@ -48,7 +49,7 @@ DATASER can be set in the source code when debugging, just comment the lines
 
 ```python
 if len(sys.argv) < 2:
-    exit("Usage: ./classifier.py APPNAME")
+    exit("Usage: ./{clustering, classifier}.py APPNAME")
 else:
     ENV_TASK = sys.argv[1]
 ```
@@ -58,10 +59,9 @@ else:
 ```python
 ENV_TASK = "facebook"
 ```
-
 ___
 
-## File and folder structure
+## :file_folder: File and folder structure
 
 #### Folders
 
@@ -85,7 +85,7 @@ ___
 
 ____
 
-## Referecenes
+## :books: Referecenes
 
 [1] Mauro Conti, Luigi V. Mancini, Riccardo Spolaor, and Nino Vincenzo Verde. 2015. Can't You Hear Me Knocking: Identification of User Actions on Android Apps via Traffic Analysis. In Proceedings of the 5th ACM Conference on Data and Application Security and Privacy (CODASPY '15). ACM, New York, NY, USA, 297-304. DOI: https://doi.org/10.1145/2699026.2699119
 
