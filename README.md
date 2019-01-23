@@ -1,4 +1,4 @@
-# Digital Forensics Project - 18/19
+# :microscope: Digital Forensics Project - 18/19
 Project 1 - Packet classification for mobile applications
 
 > The large expansion of SSL/TLS in the last years has made it harder
