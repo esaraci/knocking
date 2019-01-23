@@ -10,7 +10,7 @@ ___
 
 ### Instructions
 
-##### `clustering.py`
+#### `clustering.py`
 
 ```bash
 $ chmod +x clustering.py
@@ -37,9 +37,8 @@ else:
 ENV_TASK = "facebook"
 ```
 
-
-
-##### `classifier.py`
+___
+#### `classifier.py`
 
 ```bash
 $ chmod +x 
@@ -67,7 +66,7 @@ else:
 ENV_TASK = "facebook"
 ```
 
-
+___
 
 ## File and folder structure
 
