@@ -1,0 +1,8 @@
+\begin{abstract}
+The large expansion of SSL/TLS in the last years has made it harder for attackers to collect clear text information through packet sniffing or, more in general, through network traffic analysis. The main reason for this is that SSL/TLS encrypts the traffic between two endpoints, which means that even though packets can still be easily captured, no useful information can be inferred from the packet's content without having the encryption keys.\footnote{It is worth mentioning that the endpoints of the communication (i.e. source and destination IP addresses) are transmitted in clear text for routing purposes; by performing a DNS lookup of the addresses and attacker could easily infer what site a user is visiting.}
+
+The authors of \cite{contiknocking} and \cite{contianalysis} showed that by training a machine learning algorithm with encrypted traffic data, one could correctly classify which actions a user performed while using some of the most common Android applications such as Facebook, Gmail, or Twitter. This could easily lead, through correlation attacks, to the full deanonimization of fake, privacy preserving identities.
+
+In this work I try to reproduce the results achieved in \cite{contiknocking} and \cite{contianalysis} by implementing the classification model described in the papers.
+\vspace{0.5cm}
+\end{abstract}
