@@ -15,6 +15,4 @@ for app in ['dropbox', 'evernote', 'facebook', 'gmail', 'gplus', 'tumblr', 'twit
     data = load_raw_data("./datasets/{}_dataset.csv".format(app))
     print("Actions for {}: {}".format(app, len(np.unique(data))))
 
-
-exit()
-print(np.unique(data[:, 0], return_counts=True))
+# print(np.unique(data[:, 0], return_counts=True))

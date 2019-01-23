@@ -95,7 +95,7 @@ if __name__ == '__main__':
     # else:
     #     ENV_TASK = sys.argv[1]
 
-    ENV_TASK = "facebook"
+    ENV_TASK = "evernote"
 
     # [LOADING DATASET]
     dataset = pd.read_csv("./datasets/{}_dataset_250.csv".format(ENV_TASK))
@@ -122,7 +122,7 @@ if __name__ == '__main__':
     plt.figure()
     plot_confusion_matrix(cnf_matrix, classes=np.unique(target), normalize=True,
                           title='Normalized confusion matrix for {}'.format(ENV_TASK))
-    # plt.savefig("./images/cm_{}_250.png".format(ENV_TASK))
+    # plt.savefig("./images/{}_cm.png".format(ENV_TASK))
     plt.show()
 
     # [EVALUATION]
