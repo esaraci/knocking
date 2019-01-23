@@ -123,7 +123,7 @@ if __name__ == '__main__':
     plot_confusion_matrix(cnf_matrix, classes=np.unique(target), normalize=True,
                           title='Normalized confusion matrix for {}'.format(ENV_TASK))
     # plt.savefig("./images/{}_cm.png".format(ENV_TASK))
-    plt.show()
+    # plt.show()
 
     # [EVALUATION]
     # 
