@@ -238,7 +238,7 @@ if __name__ == '__main__':
          exit("Usage: ./clustering.py APPNAME")
     else:
         ENV_TASK = sys.argv[1]
-    #    
+       
     # ENV_TASK = "gmail"
     ENV_STARTING_INDEX = _CONSTS[ENV_TASK][0]
     ENV_LAST_INDEX = _CONSTS[ENV_TASK][1]

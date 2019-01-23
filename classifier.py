@@ -90,12 +90,12 @@ def plot_confusion_matrix(cm, classes,
 if __name__ == '__main__':
 
     # [MAIN] command line execution
-    # if len(sys.argv) < 2:
-    #     exit("Usage: ./classifier.py APPNAME")
-    # else:
-    #     ENV_TASK = sys.argv[1]
+    if len(sys.argv) < 2:
+        exit("Usage: ./classifier.py APPNAME")
+    else:
+        ENV_TASK = sys.argv[1]
 
-    ENV_TASK = "evernote"
+    # ENV_TASK = "evernote"
 
     # [LOADING DATASET]
     dataset = pd.read_csv("./datasets/{}_dataset_250.csv".format(ENV_TASK))
@@ -126,18 +126,19 @@ if __name__ == '__main__':
     plt.show()
 
     # [EVALUATION]
-    average_results = True
-    if average_results:
-        prec, rec, f1, _ = precision_recall_fscore_support(y_test, y_pred, average="weighted", warn_for=())
+    # 
+    # for action-wise performances uncomment the next lines
+    # prec, rec, f1, _ = precision_recall_fscore_support(y_test, y_pred, average=None, warn_for=())
+    #     print(np.unique(target))
+    #     print("P: {}".format(prec))
+    #     print("R: {}".format(rec))
+    #     print("F1: {}".format(f1))
 
-        print("---[scores for {}]---".format(ENV_TASK))
-        print("P: {:.2f}".format(prec))
-        print("R: {:.2f}".format(rec))
-        print("F1: {:.2f}".format(f1))
+    
+    # weighted averages, app wise performances
+    prec, rec, f1, _ = precision_recall_fscore_support(y_test, y_pred, average="weighted", warn_for=())
 
-    else:
-        prec, rec, f1, _ = precision_recall_fscore_support(y_test, y_pred, average=None, warn_for=())
-        print(np.unique(target))
-        print("P: {}".format(prec))
-        print("R: {}".format(rec))
-        print("F1: {}".format(f1))
+    print("---[scores for {}]---".format(ENV_TASK))
+    print("P: {:.2f}".format(prec))
+    print("R: {:.2f}".format(rec))
+    print("F1: {:.2f}".format(f1))
