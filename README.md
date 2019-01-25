@@ -31,6 +31,7 @@ $ ./clustering.py DATASET
 # alternatively
 $ python clustering.py DATASET
 ```
+:warning: Running `clustering.py` with more then 1000 flows might take a long time.
 
 #### `classifier.py`
 
@@ -40,7 +41,6 @@ $ ./classifier.py DATASET
 
 # alternatively
 $ python classifier.py DATASET
-
 ```
 
 DATASET is a value taken from `{dropbox, evernote, facebook, gmail, gplus, twitter}`
