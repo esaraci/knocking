@@ -79,7 +79,6 @@ ___
 - `classifier.py`: loads one of the dataset in  `datasets/` and performs classification with Random Forest
 - `clustering.py`: loads the original dataset and produces the files cotained in `datasets/`
 - `executor.py`: script used to execute `clustering.py` and `classifier.py`
-- `utils.py`:  auxiliary script used for printing statistics and debugging purposes, can be ignored
 
 
 

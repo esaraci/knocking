@@ -34,8 +34,7 @@ _CONSTS = {"facebook"     :(0, 9829),
              }
 
 """
-
-# very ugly
+# indexes of flows
 _CONSTS = dict(facebook=(0, 9829), twitter=(50319, 60742), gmail=(86578, 96501), gplus=(96502, 107293),
                tumblr=(129973, 140532), dropbox=(186675, 196682), evernote=(235137, 246620))
 
