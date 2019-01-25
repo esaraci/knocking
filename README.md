@@ -20,7 +20,7 @@ implementing the classification model described in the papers.
 For more information read the papers in \[1\] and \[2\] or my [REPORT](report/main.pdf).
 ___
 
-## :bookmark_tabs: Instructions
+## :notebook_with_decorative_cover: Instructions
 
 #### `clustering.py`
 
@@ -61,7 +61,7 @@ ENV_TASK = "facebook"
 ```
 ___
 
-## :file_folder: File and folder structure
+## :open_file_folder: File and folder structure
 
 #### Folders
 
