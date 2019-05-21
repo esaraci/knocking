@@ -1,7 +1,7 @@
 # :microscope: Digital Forensics Project - 18/19
 Project 1 - Packet classification for mobile applications
 
-> The large expansion of SSL/TLS in the last years has made it harder
+> The large adoption of SSL/TLS in the last years has made it harder
 for attackers to collect clear text information through packet sniffing or,
 more in general, through network traffic analysis. The main reason for this
 is that SSL/TLS encrypts the traffic between two endpoints, which means
